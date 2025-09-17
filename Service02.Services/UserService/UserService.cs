@@ -1,0 +1,47 @@
+﻿using Dapper;
+using Microsoft.Extensions.Options;
+using Npgsql;
+using Service02.Models;
+
+namespace Service02.Services.UserService
+{
+    public class UserService : IUserService
+    {
+        private IOptions<ConnectOption> _options;
+
+        public UserService(IOptions<ConnectOption> options)
+        {
+            _options = options;
+        }
+
+        public async Task<IEnumerable<long>> GetUsersByIpAddressAsync(string ipAddress)
+        {
+            var sql = @$"
+                SELECT 
+                    DISTINCT user_id 
+                FROM 
+                    event 
+                WHERE 
+                    host(ip_address) LIKE '{ipAddress}%';
+            ";
+
+            using var conn = new NpgsqlConnection(_options.Value.ConnectionString);
+            var result = await conn.QueryAsync<long>(sql);
+
+            return result;
+        }
+
+        private bool PartialMatch(byte[] arr1, byte[] arr2, int length)
+        {
+            if (arr1.Length < length || arr2.Length < length)
+                return false;
+
+            for (int i = 0; i < length; i++)
+            {
+                if (arr1[i] != arr2[i])
+                    return false;
+            }
+            return true;
+        }
+    }
+}

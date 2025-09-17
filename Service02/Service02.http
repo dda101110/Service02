@@ -1,0 +1,29 @@
+@Service02_HostAddress = http://localhost:5109
+### USER 112233
+GET {{Service02_HostAddress}}/api/event2/112233/127.0.0.1
+Accept: application/json
+###
+GET {{Service02_HostAddress}}/api/event/112233/127.0.0.2
+
+
+
+
+### HOST 127.0.0.1
+GET {{Service02_HostAddress}}/api/event/122233/127.0.0.1
+###
+GET {{Service02_HostAddress}}/api/event/132233/127.0.0.1
+###
+GET {{Service02_HostAddress}}/api/event/142233/127.0.0.1
+
+###
+GET {{Service02_HostAddress}}/api/user/127.185.0.174
+###
+GET {{Service02_HostAddress}}/api/user/127.185
+
+###
+GET {{Service02_HostAddress}}/api/ip/2254
+
+###
+GET {{Service02_HostAddress}}/api/connection/2254
+###
+GET {{Service02_HostAddress}}/api/connection/2254/127.185.0.174
