@@ -27,9 +27,9 @@ namespace Service02
             string connectionString = configuration.GetValue<string>("Service02:ConnectionString");
 
             builder.Services.AddDbContextPool<PostgresContext>(options => options.UseNpgsql(connectionString));
-            builder.Services.AddScoped<IUserService, UserService>();
+            builder.Services.AddScoped<IUserService, UserServiceDapper>();
             builder.Services.AddScoped<IIpService, IpServiceEF>();
-            builder.Services.AddScoped<IConnectionService, ConnectionService>();
+            builder.Services.AddScoped<IConnectionService, ConnectionServiceEF>();
             builder.Services.AddSingleton<EventQueue>(); 
             builder.Services.AddSingleton<EventProcessor>(); 
             builder.Services.Configure<ConnectOption>(builder.Configuration.GetSection("Service02"));

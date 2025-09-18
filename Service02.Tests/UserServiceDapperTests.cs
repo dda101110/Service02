@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Service02.Tests
 {
-    public class UserServiceTests : IDisposable
+    public class UserServiceDapperTests : IDisposable
     {
         private IOptions<ConnectOption> _options;
         private CleanupTestFixture _cleanupTestFixture;
 
-        public UserServiceTests()
+        public UserServiceDapperTests()
         {
             _options = Options.Create(new ConnectOption()
             {
@@ -32,7 +32,7 @@ namespace Service02.Tests
                 .SeedEventsAsync(commands);
 
             // Act
-            var service = new UserService(_options);
+            var service = new UserServiceDapper(_options);
 
             var result = (await service.GetUsersByIpAddressAsync(commands[0].IpAddress)).ToArray();
 

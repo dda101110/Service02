@@ -24,8 +24,10 @@ namespace Service02.Services.EventService
             };
 
             var sql = @"
-                INSERT INTO event(user_id, ip_address, connection)
-                VALUES(@UserId, @IpAddress::inet, @Connection)
+                INSERT INTO 
+                    event(user_id, ip_address, connection)
+                VALUES 
+                    (@UserId, @IpAddress::inet, @Connection)
                 ON CONFLICT ON CONSTRAINT unique_user_ipaddress 
                 DO UPDATE SET
                     connection = EXCLUDED.connection;

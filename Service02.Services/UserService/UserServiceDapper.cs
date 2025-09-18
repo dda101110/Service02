@@ -5,11 +5,11 @@ using Service02.Models;
 
 namespace Service02.Services.UserService
 {
-    public class UserService : IUserService
+    public class UserServiceDapper : IUserService
     {
         private IOptions<ConnectOption> _options;
 
-        public UserService(IOptions<ConnectOption> options)
+        public UserServiceDapper(IOptions<ConnectOption> options)
         {
             _options = options;
         }

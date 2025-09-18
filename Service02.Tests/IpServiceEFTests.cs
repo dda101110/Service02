@@ -7,10 +7,6 @@ namespace Service02.Tests
 {
     public class IpServiceEFTests
     {
-        public IpServiceEFTests()
-        {
-        }
-
         [Fact]
         public async Task ValidGetIpAddressesAsync()
         {

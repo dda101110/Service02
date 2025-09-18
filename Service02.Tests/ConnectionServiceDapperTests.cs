@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Service02.Tests
 {
-    public class ConnectionServiceTests : IDisposable
+    public class ConnectionServiceDapperTests : IDisposable
     {
         private IOptions<ConnectOption> _options;
         private CleanupTestFixture _cleanupTestFixture;
 
-        public ConnectionServiceTests()
+        public ConnectionServiceDapperTests()
         {
             _options = Options.Create(new ConnectOption()
             {
@@ -32,7 +32,7 @@ namespace Service02.Tests
                 .SeedEventsAsync(commands);
 
             // Act
-            var service = new ConnectionService(_options);
+            var service = new ConnectionServiceDapper(_options);
 
             var result = await service.GetLastConnectionAsync(commands[0].UserId);
 
@@ -54,7 +54,7 @@ namespace Service02.Tests
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
-            var service = new ConnectionService(_options);
+            var service = new ConnectionServiceDapper(_options);
 
             var result = await service.GetLastTimeConnectionAsync(commands[0].UserId, commands[0].IpAddress);
 

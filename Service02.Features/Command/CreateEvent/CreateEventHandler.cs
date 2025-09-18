@@ -16,8 +16,10 @@ namespace Service02.Features.Command.CreateEvent
         public async Task Handle(CreateEventCommand request, CancellationToken cancellationToken)
         {
             var sql = @"
-                INSERT INTO event(user_id, ip_address, connection)
-                VALUES(@UserId, @IpAddress::inet, @Connection)
+                INSERT INTO 
+                    event(user_id, ip_address, connection)
+                VALUES
+                    (@UserId, @IpAddress::inet, @Connection)
                 ON CONFLICT ON CONSTRAINT unique_user_ipaddress 
                 DO UPDATE SET
                     connection = EXCLUDED.connection;
