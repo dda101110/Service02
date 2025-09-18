@@ -24,6 +24,7 @@ namespace Service02.Tests
         [Fact]
         public async Task ValidCreateEventAsync()
         {
+            // Arrange
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
@@ -31,6 +32,7 @@ namespace Service02.Tests
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
+            // Act
             var service = new EventService(_options);
 
             foreach (var command in commands)
@@ -46,6 +48,7 @@ namespace Service02.Tests
             var resultCount = result.Count;
             var @event = result.FirstOrDefault();
 
+            // Assert
             Assert.Equal(1, resultCount);
             Assert.Equal(commands[2].Connection, @event?.Connection);
         }

@@ -40,8 +40,9 @@ public partial class PostgresContext : DbContext
             entity.Property(e => e.Connection).HasColumnName("connection");
             entity.Property(e => e.IpAddress)
                 .HasConversion(
-                    v => new IPAddress(v),
-                    v => v.GetAddressBytes())
+                    ip => IPAddress.Parse(ip),
+                    ip => ip.ToString()
+                )
                 .HasColumnType("inet")
                 .HasColumnName("ip_address");
             entity.Property(e => e.UserId).HasColumnName("user_id");

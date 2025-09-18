@@ -5,11 +5,11 @@ using Service02.Models;
 
 namespace Service02.Services.IpService
 {
-    public class IpService : IIpService
+    public class IpServiceDapper : IIpService
     {
         private IOptions<ConnectOption> _options;
 
-        public IpService(IOptions<ConnectOption> options)
+        public IpServiceDapper(IOptions<ConnectOption> options)
         {
             _options = options;
         }

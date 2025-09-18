@@ -5,13 +5,13 @@ using Service02.Models;
 
 namespace Service02.Services
 {
-    public sealed class MessageProcessor
+    public sealed class EventProcessor
     {
         private readonly EventQueue _eventQueue;
         private readonly CancellationTokenSource _cancellationTokenSource;
         private IOptions<ConnectOption> _options;
 
-        public MessageProcessor(EventQueue queue, IOptions<ConnectOption> options)
+        public EventProcessor(EventQueue queue, IOptions<ConnectOption> options)
         {
             _options = options;
             _eventQueue = queue;
@@ -20,7 +20,7 @@ namespace Service02.Services
 
         public void StartProcessing()
         {
-            ProcessMessages(_cancellationTokenSource.Token);
+            _ = ProcessEvents(_cancellationTokenSource.Token);
         }
 
         public void StopProcessing()
@@ -28,13 +28,13 @@ namespace Service02.Services
             _cancellationTokenSource.Cancel();
         }
 
-        private async Task ProcessMessages(CancellationToken cancellationToken)
+        private async Task ProcessEvents(CancellationToken cancellationToken)
         {
             while (!cancellationToken.IsCancellationRequested)
             {
                 if (_eventQueue.TryDequeue(out var @event))
                 {
-                    await HandleMessageAsync(@event);
+                    await HandleEventAsync(@event);
                 }
                 else
                 {
@@ -43,11 +43,13 @@ namespace Service02.Services
             }
         }
 
-        private async Task HandleMessageAsync(EventDto @event)
+        private async Task HandleEventAsync(EventDto @event)
         {
             var sql = @"
-                INSERT INTO event(user_id, ip_address, connection)
-                VALUES(@UserId, @IpAddress::inet, @Connection)
+                INSERT INTO 
+                    event(user_id, ip_address, connection)
+                VALUES 
+                    (@UserId, @IpAddress::inet, @Connection)
                 ON CONFLICT ON CONSTRAINT unique_user_ipaddress 
                 DO UPDATE SET
                     connection = EXCLUDED.connection;

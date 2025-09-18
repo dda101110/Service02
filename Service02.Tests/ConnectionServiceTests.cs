@@ -23,6 +23,7 @@ namespace Service02.Tests
         [Fact]
         public async Task ValidGetLastConnectionAsync()
         {
+            // Arrange
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
@@ -30,12 +31,14 @@ namespace Service02.Tests
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
+            // Act
             var service = new ConnectionService(_options);
 
             var result = await service.GetLastConnectionAsync(commands[0].UserId);
 
             var validEvent = commands[2];
 
+            // Assert
             Assert.Equal(validEvent.Connection, result.Connection);
             Assert.Equal(validEvent.IpAddress, result.IpAddress);
         }
@@ -43,6 +46,7 @@ namespace Service02.Tests
         [Fact]
         public async Task ValidGetLastTimeConnectionAsync()
         {
+            // Arrange
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
@@ -56,6 +60,7 @@ namespace Service02.Tests
 
             var validValue = commands[2].Connection;
 
+            // Assert
             Assert.Equal(validValue, result);
         }
 

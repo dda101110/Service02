@@ -25,7 +25,7 @@ namespace Service02.API.Controllers
                 Connection = DateTime.UtcNow,
             };
 
-            _mediator.Send(request);
+            _ = _mediator.Send(request);
 
             return Ok("OK");
         }

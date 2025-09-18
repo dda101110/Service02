@@ -4,7 +4,6 @@ using Service02.Models;
 using Service02.Models.Models;
 using Service02.Services;
 using Service02.Services.ConnectionService;
-using Service02.Services.EventQueueService;
 using Service02.Services.IpService;
 using Service02.Services.UserService;
 using System.Reflection;
@@ -29,11 +28,10 @@ namespace Service02
 
             builder.Services.AddDbContextPool<PostgresContext>(options => options.UseNpgsql(connectionString));
             builder.Services.AddScoped<IUserService, UserService>();
-            builder.Services.AddScoped<IIpService, IpService>();
+            builder.Services.AddScoped<IIpService, IpServiceEF>();
             builder.Services.AddScoped<IConnectionService, ConnectionService>();
-            builder.Services.AddScoped<IEventQueueService, EventQueueService>();
             builder.Services.AddSingleton<EventQueue>(); 
-            builder.Services.AddSingleton<MessageProcessor>(); 
+            builder.Services.AddSingleton<EventProcessor>(); 
             builder.Services.Configure<ConnectOption>(builder.Configuration.GetSection("Service02"));
 
             var app = builder.Build();
@@ -42,7 +40,7 @@ namespace Service02
 
             app.MapControllers();
 
-            var processor = app.Services.GetRequiredService<MessageProcessor>();
+            var processor = app.Services.GetRequiredService<EventProcessor>();
             processor.StartProcessing();
             app.Lifetime.ApplicationStopping.Register(processor.StopProcessing);
 
