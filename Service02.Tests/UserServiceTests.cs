@@ -23,6 +23,7 @@ namespace Service02.Tests
         [Fact]
         public async Task ValidGetUsersByIpAddressAsync()
         {
+            // Arrange
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
@@ -30,6 +31,7 @@ namespace Service02.Tests
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
+            // Act
             var service = new UserService(_options);
 
             var result = (await service.GetUsersByIpAddressAsync(commands[0].IpAddress)).ToArray();
@@ -41,6 +43,7 @@ namespace Service02.Tests
             };
             var resultCompare = !(result.Except(validList).Any()) && !(validList.Except(result).Any());
 
+            // Assert
             Assert.Equal(validList.Length, resultCount);
             Assert.True(resultCompare, "List is valid");
         }

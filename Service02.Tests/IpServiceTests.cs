@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Service02.Tests
 {
-    public class IpServiceTest : IDisposable
+    public class IpServiceTests : IDisposable
     {
         private IOptions<ConnectOption> _options;
         private CleanupTestFixture _cleanupTestFixture;
 
-        public IpServiceTest()
+        public IpServiceTests()
         {
             _options = Options.Create(new ConnectOption()
             {
@@ -23,6 +23,7 @@ namespace Service02.Tests
         [Fact]
         public async Task ValidGetIpAddressesAsync()
         {
+            // Arrange
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
@@ -30,7 +31,8 @@ namespace Service02.Tests
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
-            var service = new IpService(_options);
+            // Act
+            var service = new IpServiceDapper(_options);
 
             var result = (await service.GetIpAddressesAsync(commands[0].UserId)).ToArray();
 
@@ -40,6 +42,7 @@ namespace Service02.Tests
             };
             var resultCompare = !(result.Except(validList).Any()) && !(validList.Except(result).Any());
 
+            // Assert
             Assert.Equal(validList.Length, resultCount);
             Assert.True(resultCompare, "List is valid");
         }

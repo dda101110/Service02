@@ -30,18 +30,5 @@ namespace Service02.Services.UserService
 
             return result;
         }
-
-        private bool PartialMatch(byte[] arr1, byte[] arr2, int length)
-        {
-            if (arr1.Length < length || arr2.Length < length)
-                return false;
-
-            for (int i = 0; i < length; i++)
-            {
-                if (arr1[i] != arr2[i])
-                    return false;
-            }
-            return true;
-        }
     }
 }

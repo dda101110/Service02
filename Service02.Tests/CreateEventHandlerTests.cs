@@ -23,11 +23,14 @@ namespace Service02.Tests
         [Fact]
         public async Task ValidCreateEventCommandCreateEventHandler()
         {
-            CreateEventHandler handler = new CreateEventHandler(_options);
-
+            // Arrange
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
+
+            // Act
+            CreateEventHandler handler = new CreateEventHandler(_options);
+
             var cts = new CancellationTokenSource();
 
             await handler.Handle(commands[0], cts.Token);
@@ -42,6 +45,7 @@ namespace Service02.Tests
             var resultCount = result.Count;
             var @event = result.FirstOrDefault();
 
+            // Assert
             Assert.Equal(1, resultCount);
             Assert.Equal(commands[2].Connection, @event?.Connection);
         }
