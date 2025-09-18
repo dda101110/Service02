@@ -6,12 +6,12 @@ using Xunit;
 
 namespace Service02.Tests
 {
-    public class EventServiceTest : IDisposable
+    public class EventServiceDapperTest : IDisposable
     {
         private IOptions<ConnectOption> _options;
         private CleanupTestFixture _cleanupTestFixture;
 
-        public EventServiceTest()
+        public EventServiceDapperTest()
         {
             _options = Options.Create(new ConnectOption()
             {
@@ -33,7 +33,7 @@ namespace Service02.Tests
                 .SeedEventsAsync(commands);
 
             // Act
-            var service = new EventService(_options);
+            var service = new EventServiceDapper(_options);
 
             foreach (var command in commands)
             {

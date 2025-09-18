@@ -5,11 +5,11 @@ using Service02.Models;
 
 namespace Service02.Services.EventService
 {
-    public class EventService : IEventService
+    public class EventServiceDapper : IEventService
     {
         private IOptions<ConnectOption> _options;
 
-        public EventService(IOptions<ConnectOption> options)
+        public EventServiceDapper(IOptions<ConnectOption> options)
         {
             _options = options;
         }
