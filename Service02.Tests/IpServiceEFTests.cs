@@ -19,7 +19,7 @@ namespace Service02.Tests
             };
 
             var options = new DbContextOptionsBuilder<PostgresContext>()
-                .UseInMemoryDatabase(databaseName: "TestDB")
+                .UseInMemoryDatabase(databaseName: "TestDB3")
                 .Options;
 
             using (var ctx = new PostgresContext(options))
