@@ -5,12 +5,12 @@ using Xunit;
 
 namespace Service02.Tests
 {
-    public class IpServiceTests : IDisposable
+    public class IpServiceDapperTests : IDisposable
     {
         private IOptions<ConnectOption> _options;
         private CleanupTestFixture _cleanupTestFixture;
 
-        public IpServiceTests()
+        public IpServiceDapperTests()
         {
             _options = Options.Create(new ConnectOption()
             {
