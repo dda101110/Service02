@@ -18,12 +18,14 @@ GET {{Service02_HostAddress}}/api/event/142233/127.0.0.1
 ###
 GET {{Service02_HostAddress}}/api/user/127.181.0.203
 ###
-GET {{Service02_HostAddress}}/api/user/127.185
+GET {{Service02_HostAddress}}/api/user/127.0.0
+###
+GET {{Service02_HostAddress}}/api/user/127.0.0.2
 
 ###
-GET {{Service02_HostAddress}}/api/ip/2254
+GET {{Service02_HostAddress}}/api/ip/112233
 
 ###
-GET {{Service02_HostAddress}}/api/connection/2254
+GET {{Service02_HostAddress}}/api/connection/112233
 ###
-GET {{Service02_HostAddress}}/api/connection/2254/127.181.0.203
+GET {{Service02_HostAddress}}/api/connection/112233/127.0.0.2
