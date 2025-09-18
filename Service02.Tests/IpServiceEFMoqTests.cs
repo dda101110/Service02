@@ -1,17 +1,18 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EntityFrameworkCore.Testing.Moq;
+using Microsoft.EntityFrameworkCore;
 using Service02.Models.Models;
 using Service02.Services.IpService;
 using Xunit;
 
 namespace Service02.Tests
 {
-    public class IpServiceEFTests
+    public class IpServiceEFMoqTests
     {
         [Fact]
         public async Task ValidGetIpAddressesAsync()
         {
             // Arrange
-            var events = new List<Event>()
+            var events = new List<Event>
             {
                 new Event(){ UserId = 112233, IpAddress = "127.0.0.2", Connection = new DateTime(2030, 1, 1, 0, 0, 10, kind: DateTimeKind.Utc) },
                 new Event(){ UserId = 112234, IpAddress = "127.0.0.1", Connection = new DateTime(2030, 1, 1, 0, 0, 20, kind: DateTimeKind.Utc),},
@@ -22,18 +23,11 @@ namespace Service02.Tests
                 "127.0.0.2",
             };
 
-            var options = new DbContextOptionsBuilder<PostgresContext>()
-                .UseInMemoryDatabase(databaseName: "TestDB3")
-                .Options;
+            var mockContext = Create.MockedDbContextFor<PostgresContext>();
+            mockContext.Events.AddRange(events);
+            await mockContext.SaveChangesAsync(); 
 
-            using (var ctx = new PostgresContext(options))
-            {
-                ctx.Events.AddRange(events);
-                await ctx.SaveChangesAsync();
-            }
-
-            using var context = new PostgresContext(options);
-            var service = new IpServiceEF(context);
+            var service = new IpServiceEF(mockContext);
 
             // Act
             var result = (await service.GetIpAddressesAsync(112233)).ToArray();

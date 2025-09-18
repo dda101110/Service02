@@ -18,6 +18,11 @@ namespace Service02.Tests
                 new Event(){ UserId = 112234, IpAddress = "127.0.0.1", Connection = new DateTime(2030, 1, 1, 0, 0, 20, kind: DateTimeKind.Utc),},
                 new Event(){ UserId = 112233, IpAddress = "127.0.0.1", Connection = new DateTime(2030, 1, 1, 0, 0, 30, kind: DateTimeKind.Utc),},
             };
+            var validEvent = new ConnectionResponse()
+            {
+                IpAddress = "127.0.0.1",
+                Connection = new DateTime(2030, 1, 1, 0, 0, 30, kind: DateTimeKind.Utc),
+            };
 
             var options = new DbContextOptionsBuilder<PostgresContext>()
                 .UseInMemoryDatabase(databaseName: "TestDB1")
@@ -30,16 +35,10 @@ namespace Service02.Tests
             }
 
             using var context = new PostgresContext(options);
-
-            // Act
             var service = new ConnectionServiceEF(context);
 
+            // Act
             var result = await service.GetLastConnectionAsync(112233);
-
-            var validEvent = new ConnectionResponse() {
-                IpAddress = "127.0.0.1",
-                Connection = new DateTime(2030, 1, 1, 0, 0, 30, kind: DateTimeKind.Utc),
-            };
 
             // Assert
             Assert.Equal(validEvent.Connection, result.Connection);
@@ -56,6 +55,7 @@ namespace Service02.Tests
                 new Event(){ UserId = 112234, IpAddress = "127.0.0.1", Connection = new DateTime(2030, 1, 1, 0, 0, 20, kind: DateTimeKind.Utc),},
                 new Event(){ UserId = 112233, IpAddress = "127.0.0.1", Connection = new DateTime(2030, 1, 1, 0, 0, 30, kind: DateTimeKind.Utc),},
             };
+            var validValue = new DateTime(2030, 1, 1, 0, 0, 10, kind: DateTimeKind.Utc);
 
             var options = new DbContextOptionsBuilder<PostgresContext>()
                 .UseInMemoryDatabase(databaseName: "TestDB2")
@@ -68,13 +68,10 @@ namespace Service02.Tests
             }
 
             using var context = new PostgresContext(options);
-
-            // Act
             var service = new ConnectionServiceEF(context);
 
+            // Act
             var result = await service.GetLastTimeConnectionAsync(112233, "127.0.0.2");
-
-            var validValue = new DateTime(2030, 1, 1, 0, 0, 10, kind: DateTimeKind.Utc);
 
             // Assert
             Assert.Equal(validValue, result);

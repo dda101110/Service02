@@ -16,7 +16,7 @@ namespace Service02.Services.IpService
         {
             var result = await _ctx.Events
                 .Where(e => e.UserId==userId)
-                .Select(e => e.IpAddress.ToString())
+                .Select(e => e.IpAddress)
                 .ToListAsync();
 
             return result;

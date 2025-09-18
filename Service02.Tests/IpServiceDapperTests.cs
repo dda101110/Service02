@@ -31,15 +31,16 @@ namespace Service02.Tests
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
-            // Act
-            var service = new IpServiceDapper(_options);
-
-            var result = (await service.GetIpAddressesAsync(commands[0].UserId)).ToArray();
-
-            var resultCount = result.Count();
             var validList = new string[1]{
                 commands[1].IpAddress,
             };
+
+            var service = new IpServiceDapper(_options);
+
+            // Act
+            var result = (await service.GetIpAddressesAsync(commands[0].UserId)).ToArray();
+
+            var resultCount = result.Count();
             var resultCompare = !(result.Except(validList).Any()) && !(validList.Except(result).Any());
 
             // Assert

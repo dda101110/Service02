@@ -27,16 +27,14 @@ namespace Service02.Tests
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
+            var validEvent = commands[2];
 
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
-
-            // Act
             var service = new ConnectionServiceDapper(_options);
 
+            // Act
             var result = await service.GetLastConnectionAsync(commands[0].UserId);
-
-            var validEvent = commands[2];
 
             // Assert
             Assert.Equal(validEvent.Connection, result.Connection);
@@ -50,15 +48,15 @@ namespace Service02.Tests
             var commands = _cleanupTestFixture
                 .GetCommandPack01()
                 .ToArray();
+            var validValue = commands[2].Connection;
 
             await _cleanupTestFixture
                 .SeedEventsAsync(commands);
 
             var service = new ConnectionServiceDapper(_options);
 
+            // Act
             var result = await service.GetLastTimeConnectionAsync(commands[0].UserId, commands[0].IpAddress);
-
-            var validValue = commands[2].Connection;
 
             // Assert
             Assert.Equal(validValue, result);

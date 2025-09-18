@@ -28,19 +28,26 @@ namespace Service02.Tests
                 .GetCommandPack01()
                 .ToArray();
 
-            // Act
             CreateEventHandler handler = new CreateEventHandler(_options);
-
             var cts = new CancellationTokenSource();
 
+            // Act
             await handler.Handle(commands[0], cts.Token);
             await handler.Handle(commands[1], cts.Token);
             await handler.Handle(commands[2], cts.Token);
 
             var conn = _cleanupTestFixture.GetConnection();
             var result = conn
-                .Query<EventDto>(@"SELECT user_id AS UserId, host(ip_address) AS IpAddress, connection 
-                                 FROM event WHERE user_id=@UserId and host(ip_address)=@IpAddress;", commands[2])
+                .Query<EventDto>(@"SELECT 
+                                    user_id AS UserId, 
+                                    host(ip_address) AS IpAddress, 
+                                    connection 
+                                 FROM 
+                                    event 
+                                 WHERE 
+                                    user_id=@UserId 
+                                    and host(ip_address)=@IpAddress;
+                                 ", commands[2])
                 .ToList();
             var resultCount = result.Count;
             var @event = result.FirstOrDefault();

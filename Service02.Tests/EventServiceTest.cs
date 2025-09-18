@@ -42,8 +42,16 @@ namespace Service02.Tests
 
             var conn = _cleanupTestFixture.GetConnection();
             var result = conn
-                .Query<EventDto>(@"SELECT user_id AS UserId, host(ip_address) AS IpAddress, connection 
-                                 FROM event WHERE user_id=@UserId and host(ip_address)=@IpAddress;", commands[2])
+                .Query<EventDto>(@"SELECT 
+                                    user_id AS UserId,
+                                    host(ip_address) AS IpAddress,
+                                    connection 
+                                 FROM 
+                                    event 
+                                WHERE 
+                                    user_id=@UserId 
+                                    and host(ip_address)=@IpAddress;
+                                ", commands[2])
                 .ToList();
             var resultCount = result.Count;
             var @event = result.FirstOrDefault();
